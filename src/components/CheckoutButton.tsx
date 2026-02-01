@@ -45,7 +45,6 @@ const CheckoutButton = ({
 
     try {
       // In production, this would call your Stripe checkout endpoint
-      // For now, we'll simulate the API call
       const response = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: {
@@ -83,7 +82,7 @@ const CheckoutButton = ({
   const price = product ? PRODUCT_PRICES[product] : 0;
 
   return (
-    <section className="py-20 bg-muted/20">
+    <section className="py-24">
       <div className="container px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -91,36 +90,36 @@ const CheckoutButton = ({
           viewport={{ once: true }}
           className="max-w-lg mx-auto text-center"
         >
-          <div className="glass-card rounded-2xl p-8">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
-              <CreditCard className="w-8 h-8 text-primary" />
+          <div className="glass-elevated rounded-3xl p-10">
+            <div className="w-18 h-18 rounded-2xl glass-subtle flex items-center justify-center mx-auto mb-8">
+              <CreditCard className="w-10 h-10 text-primary" />
             </div>
 
             <h2 className="text-2xl font-bold mb-2">Order Summary</h2>
             
-            <div className="my-6 py-6 border-t border-b border-border">
-              <div className="flex justify-between items-center mb-2">
+            <div className="my-8 py-6 border-t border-b border-glass-border/50">
+              <div className="flex justify-between items-center mb-3">
                 <span className="text-muted-foreground">Style</span>
                 <span className="font-medium capitalize">{style || "Not selected"}</span>
               </div>
-              <div className="flex justify-between items-center mb-2">
+              <div className="flex justify-between items-center mb-3">
                 <span className="text-muted-foreground">Product</span>
                 <span className="font-medium capitalize">{product || "Not selected"}</span>
               </div>
-              <div className="flex justify-between items-center mb-2">
+              <div className="flex justify-between items-center mb-3">
                 <span className="text-muted-foreground">Photos</span>
                 <span className="font-medium">{files.length} uploaded</span>
               </div>
-              <div className="flex justify-between items-center mt-4 pt-4 border-t border-border">
+              <div className="flex justify-between items-center mt-6 pt-6 border-t border-glass-border/50">
                 <span className="text-lg font-semibold">Total</span>
-                <span className="text-3xl font-bold text-gradient">€{price}</span>
+                <span className="text-4xl font-bold text-gradient">€{price}</span>
               </div>
             </div>
 
             <Button
               variant="hero"
               size="xl"
-              className="w-full mb-4"
+              className="w-full mb-5"
               onClick={handleCheckout}
               disabled={disabled || isLoading}
             >
@@ -138,7 +137,7 @@ const CheckoutButton = ({
             </Button>
 
             <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
-              <ShieldCheck className="w-4 h-4" />
+              <ShieldCheck className="w-4 h-4 text-primary" />
               Secured by Stripe. 256-bit SSL encryption.
             </div>
           </div>

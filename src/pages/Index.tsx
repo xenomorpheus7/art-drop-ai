@@ -84,28 +84,28 @@ const Index = () => {
       <motion.div
         initial={{ y: 100 }}
         animate={{ y: isCheckoutReady ? 0 : 100 }}
-        className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-lg border-t border-border p-4 z-50"
+        className="fixed bottom-0 left-0 right-0 glass-elevated border-t border-glass-border/50 p-5 z-50"
       >
         <div className="container flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-5">
             <div className="flex items-center gap-2">
-              <div className={`w-3 h-3 rounded-full ${selectedStyle ? "bg-primary" : "bg-muted"}`} />
+              <div className={`w-3 h-3 rounded-full transition-all ${selectedStyle ? "bg-primary glow-primary" : "bg-muted"}`} />
               <span className="text-sm hidden sm:inline">Style</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className={`w-3 h-3 rounded-full ${files.length > 0 ? "bg-primary" : "bg-muted"}`} />
+              <div className={`w-3 h-3 rounded-full transition-all ${files.length > 0 ? "bg-primary glow-primary" : "bg-muted"}`} />
               <span className="text-sm hidden sm:inline">Photos</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className={`w-3 h-3 rounded-full ${selectedProduct ? "bg-primary" : "bg-muted"}`} />
+              <div className={`w-3 h-3 rounded-full transition-all ${selectedProduct ? "bg-primary glow-primary" : "bg-muted"}`} />
               <span className="text-sm hidden sm:inline">Product</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className={`w-3 h-3 rounded-full ${isEmailValid ? "bg-primary" : "bg-muted"}`} />
+              <div className={`w-3 h-3 rounded-full transition-all ${isEmailValid ? "bg-primary glow-primary" : "bg-muted"}`} />
               <span className="text-sm hidden sm:inline">Email</span>
             </div>
           </div>
-          <span className="text-lg font-bold text-gradient">
+          <span className="text-xl font-bold text-gradient">
             {selectedProduct === "digital" && "€19"}
             {selectedProduct === "poster" && "€39"}
             {selectedProduct === "framed" && "€79"}
