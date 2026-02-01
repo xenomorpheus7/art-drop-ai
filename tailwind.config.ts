@@ -47,6 +47,11 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        glass: {
+          bg: "hsl(var(--glass-bg))",
+          border: "hsl(var(--glass-border))",
+          highlight: "hsl(var(--glass-highlight))",
+        },
         neon: {
           cyan: "hsl(var(--neon-cyan))",
           purple: "hsl(var(--neon-purple))",
@@ -58,6 +63,8 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xl: "calc(var(--radius) + 4px)",
+        "2xl": "calc(var(--radius) + 8px)",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
@@ -78,18 +85,29 @@ export default {
         },
         glow: {
           "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.5" },
+          "50%": { opacity: "0.6" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-15px)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        shimmer: "shimmer 2s linear infinite",
-        glow: "glow 2s ease-in-out infinite",
+        shimmer: "shimmer 3s linear infinite",
+        glow: "glow 3s ease-in-out infinite",
+        float: "float 8s ease-in-out infinite",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "hero-glow": "radial-gradient(ellipse at center top, hsl(var(--neon-cyan) / 0.15) 0%, transparent 50%)",
+        "hero-glow": "radial-gradient(ellipse at center top, hsl(var(--neon-cyan) / 0.1) 0%, transparent 50%)",
+        "glass-gradient": "linear-gradient(135deg, hsl(var(--glass-bg) / 0.7) 0%, hsl(var(--glass-bg) / 0.4) 100%)",
+      },
+      boxShadow: {
+        glass: "0 8px 32px hsl(var(--background) / 0.4), inset 0 1px 0 hsl(var(--glass-highlight) / 0.05)",
+        "glass-lg": "0 16px 48px hsl(var(--background) / 0.5), 0 4px 16px hsl(var(--neon-cyan) / 0.05)",
+        glow: "0 0 20px hsl(var(--neon-cyan) / 0.2), 0 0 40px hsl(var(--neon-cyan) / 0.1)",
       },
     },
   },

@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, X, Image as ImageIcon, AlertCircle } from "lucide-react";
+import { Upload, X, Image as ImageIcon, AlertCircle, CloudUpload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -72,18 +72,18 @@ const UploadZone = ({ files, onFilesChange }: UploadZoneProps) => {
   };
 
   return (
-    <section className="py-20 bg-muted/20">
+    <section className="py-24">
       <div className="container px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-14"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
             Upload Your <span className="text-gradient">Photos</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
             Upload 1-5 high-quality photos. Front-facing shots with good lighting work best.
           </p>
         </motion.div>
@@ -100,7 +100,7 @@ const UploadZone = ({ files, onFilesChange }: UploadZoneProps) => {
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             className={cn(
-              "upload-zone p-12 text-center cursor-pointer",
+              "upload-zone p-14 text-center cursor-pointer",
               isDragOver && "drag-over"
             )}
           >
@@ -114,21 +114,27 @@ const UploadZone = ({ files, onFilesChange }: UploadZoneProps) => {
             />
             <label htmlFor="file-upload" className="cursor-pointer">
               <motion.div
-                animate={{ scale: isDragOver ? 1.1 : 1 }}
-                className="flex flex-col items-center gap-4"
+                animate={{ scale: isDragOver ? 1.05 : 1 }}
+                className="flex flex-col items-center gap-5"
               >
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Upload className="w-8 h-8 text-primary" />
-                </div>
+                <motion.div 
+                  className="w-20 h-20 rounded-2xl glass-elevated flex items-center justify-center"
+                  animate={{ y: isDragOver ? -5 : 0 }}
+                >
+                  <CloudUpload className={cn(
+                    "w-10 h-10 transition-colors",
+                    isDragOver ? "text-primary" : "text-muted-foreground"
+                  )} />
+                </motion.div>
                 <div>
-                  <p className="font-semibold text-lg">
+                  <p className="font-semibold text-xl">
                     {isDragOver ? "Drop your photos here" : "Drag & drop your photos"}
                   </p>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-sm text-muted-foreground mt-2">
                     or click to browse • JPG, PNG, WEBP • Max 10MB
                   </p>
                 </div>
-                <Button variant="neon" size="sm">
+                <Button variant="neon" size="lg">
                   Select Files
                 </Button>
               </motion.div>
@@ -142,7 +148,7 @@ const UploadZone = ({ files, onFilesChange }: UploadZoneProps) => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="mt-4 p-4 rounded-lg bg-destructive/10 border border-destructive/30 flex items-center gap-3"
+                className="mt-5 p-4 rounded-xl glass-subtle border border-destructive/30 flex items-center gap-3"
               >
                 <AlertCircle className="w-5 h-5 text-destructive shrink-0" />
                 <p className="text-sm text-destructive">{error}</p>
@@ -157,10 +163,10 @@ const UploadZone = ({ files, onFilesChange }: UploadZoneProps) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
-                className="mt-8"
+                className="mt-10"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <p className="font-semibold">
+                <div className="flex items-center justify-between mb-5">
+                  <p className="font-semibold text-lg">
                     {files.length} of {MAX_FILES} photos uploaded
                   </p>
                   {files.length > 0 && (
@@ -182,18 +188,19 @@ const UploadZone = ({ files, onFilesChange }: UploadZoneProps) => {
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.8 }}
-                      className="relative aspect-square rounded-lg overflow-hidden group"
+                      className="relative aspect-square rounded-xl overflow-hidden group glass-subtle"
                     >
                       <img
                         src={URL.createObjectURL(file)}
                         alt={`Upload ${index + 1}`}
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute inset-0 bg-background/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <div className="absolute inset-0 bg-background/60 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
                         <Button
                           variant="destructive"
                           size="icon"
                           onClick={() => removeFile(index)}
+                          className="rounded-xl"
                         >
                           <X className="w-4 h-4" />
                         </Button>
@@ -205,7 +212,7 @@ const UploadZone = ({ files, onFilesChange }: UploadZoneProps) => {
                   {files.length < MAX_FILES && (
                     <label
                       htmlFor="file-upload"
-                      className="aspect-square rounded-lg border-2 border-dashed border-muted-foreground/30 flex items-center justify-center cursor-pointer hover:border-primary/50 transition-colors"
+                      className="aspect-square rounded-xl glass-subtle flex items-center justify-center cursor-pointer hover:border-primary/50 transition-all hover:glow-soft"
                     >
                       <ImageIcon className="w-8 h-8 text-muted-foreground" />
                     </label>
