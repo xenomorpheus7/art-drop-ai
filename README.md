@@ -1,12 +1,218 @@
-# Welcome to your Lovable project
+# Art Drop AI - Cloudflare Architecture
 
-## Project info
+A production-ready AI art generation platform with Stripe payments, refactored for Cloudflare Pages and Workers.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## 🏗️ Architecture
 
-## How can I edit this code?
+- **Frontend**: Cloudflare Pages (Vite + React + TypeScript)
+- **Backend**: Cloudflare Workers (Serverless API)
+- **Database**: Compatible with Cloudflare D1, Neon, or other Workers-compatible databases
+- **Payments**: Stripe (webhook-based fulfillment)
+- **AI Generation**: Replicate InstantID for face-preserving generation
 
-There are several ways of editing your application.
+## 📁 Project Structure
+
+```
+├── frontend/          # Cloudflare Pages deployment
+│   ├── src/
+│   ├── public/
+│   ├── package.json   # Frontend dependencies only
+│   └── .env          # VITE_API_BASE_URL
+├── backend/           # Cloudflare Workers deployment
+│   ├── src/
+│   │   ├── index.js  # Main Worker fetch handler
+│   │   └── database.js # Database functions (placeholder)
+│   ├── package.json   # Worker dependencies
+│   └── wrangler.toml # Worker configuration
+└── README.md
+```
+
+## 🚀 Deployment Instructions
+
+### Frontend (Cloudflare Pages)
+
+1. **Install Dependencies**
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. **Set Environment Variable**
+   ```bash
+   # Create .env file
+   echo "VITE_API_BASE_URL=https://api.yourdomain.com" > .env
+   ```
+
+3. **Build for Production**
+   ```bash
+   npm run build
+   ```
+
+4. **Deploy to Cloudflare Pages**
+   - Go to Cloudflare Dashboard → Pages
+   - Create new project → Connect to Git
+   - **Root directory**: `frontend`
+   - **Build command**: `npm install && npm run build`
+   - **Output directory**: `dist`
+   - Add environment variable: `VITE_API_BASE_URL=https://api.yourdomain.com`
+
+### Backend (Cloudflare Workers)
+
+1. **Install Dependencies**
+   ```bash
+   cd backend
+   npm install
+   ```
+
+2. **Set Environment Variables**
+   ```bash
+   # Set secrets via Wrangler CLI
+   wrangler secret put REPLICATE_API_TOKEN
+   wrangler secret put STRIPE_SECRET_KEY
+   wrangler secret put STRIPE_WEBHOOK_SECRET
+   wrangler secret put DATABASE_URL
+   ```
+
+3. **Deploy to Cloudflare Workers**
+   ```bash
+   # Deploy to production
+   npm run deploy
+   
+   # Or test locally
+   npm run dev
+   ```
+
+4. **Configure Custom Domain** (Optional)
+   - Add custom domain: `api.yourdomain.com`
+   - Update frontend `VITE_API_BASE_URL` accordingly
+
+## 🔧 Environment Variables
+
+### Frontend (.env)
+```bash
+VITE_API_BASE_URL=https://api.yourdomain.com
+```
+
+### Backend (Worker Secrets)
+```bash
+REPLICATE_API_TOKEN=your_replicate_token
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+DATABASE_URL=your_database_connection_string
+```
+
+## 📡 API Endpoints
+
+- `POST /api/generate` - Generate AI artwork
+- `POST /api/checkout` - Create Stripe checkout session
+- `GET /api/verify-session/:sessionId` - Verify payment status
+- `POST /api/stripe-webhook` - Stripe webhook handler
+
+## 🗄️ Database Setup
+
+The backend includes placeholder database functions. Choose one of these options:
+
+### Option 1: Cloudflare D1 (Recommended)
+```bash
+# Install D1 client
+npm install @cloudflare/d1
+
+# Update database.js to use D1 bindings
+```
+
+### Option 2: Neon PostgreSQL
+```bash
+# Install Neon client
+npm install @neondatabase/serverless
+
+# Update database.js with Neon connection
+```
+
+### Option 3: External PostgreSQL
+```bash
+# Install PostgreSQL client for Workers
+npm install postgres
+
+# Configure with connection pooling
+```
+
+## 🔒 Security Notes
+
+- ✅ Stripe secrets never exposed to frontend
+- ✅ CORS properly configured between Pages and Workers
+- ✅ Webhook signatures verified
+- ✅ File uploads validated
+- ✅ Environment variables isolated
+
+## 🧪 Testing
+
+### Frontend
+```bash
+cd frontend
+npm run dev    # Development server
+npm run build  # Production build
+npm run test   # Run tests
+```
+
+### Backend
+```bash
+cd backend
+npm run dev    # Local development (wrangler dev)
+npm run deploy # Deploy to Workers
+```
+
+## 🐛 Troubleshooting
+
+### Frontend Build Issues
+- Ensure all dependencies in `frontend/package.json`
+- Check `VITE_API_BASE_URL` is set correctly
+- Verify no backend dependencies in frontend
+
+### Backend Deployment Issues
+- Check all secrets are set via `wrangler secret put`
+- Verify `wrangler.toml` configuration
+- Check Worker logs in Cloudflare dashboard
+
+### CORS Issues
+- Ensure `VITE_API_BASE_URL` matches Worker URL
+- Check CORS headers in Worker response
+- Verify preflight requests handled
+
+## 📝 Development Workflow
+
+1. **Local Development**
+   ```bash
+   # Terminal 1: Backend
+   cd backend && npm run dev
+   
+   # Terminal 2: Frontend
+   cd frontend && npm run dev
+   ```
+
+2. **Making Changes**
+   - Frontend changes: Auto-reloads via Vite
+   - Backend changes: Restart `wrangler dev`
+
+3. **Deploying Updates**
+   ```bash
+   # Frontend
+   cd frontend && git push origin main
+   
+   # Backend
+   cd backend && npm run deploy
+   ```
+
+## 🎯 Next Steps
+
+1. **Set up production database** (D1/Neon/PostgreSQL)
+2. **Configure custom domains** for both frontend and backend
+3. **Set up monitoring** and error tracking
+4. **Add comprehensive testing**
+5. **Configure CI/CD** for automated deployments
+
+## 📄 License
+
+MIT License - feel free to use this architecture for your projects.
 
 **Use Lovable**
 

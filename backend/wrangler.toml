@@ -1,0 +1,21 @@
+name = "art-drop-ai-backend"
+main = "src/index.js"
+compatibility_date = "2024-12-18"
+
+[vars]
+# Environment variables will be set in Cloudflare dashboard
+# or via wrangler secret commands
+
+# Example variables (set via: wrangler secret put <NAME>)
+# REPLICATE_API_TOKEN = "your_replicate_token"
+# STRIPE_SECRET_KEY = "your_stripe_secret_key"
+# STRIPE_WEBHOOK_SECRET = "your_stripe_webhook_secret"
+# DATABASE_URL = "your_database_url"
+
+# Development configuration
+[env.development]
+vars = { ENVIRONMENT = "development" }
+
+# Production configuration
+[env.production]
+vars = { ENVIRONMENT = "production" }

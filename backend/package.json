@@ -1,0 +1,20 @@
+{
+  "name": "art-drop-ai-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@fal-ai/serverless-client": "^0.15.0",
+    "@huggingface/inference": "^4.13.11",
+    "replicate": "^1.4.0",
+    "stripe": "^20.3.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241218.0",
+    "wrangler": "^3.78.12"
+  }
+}

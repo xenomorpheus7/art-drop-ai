@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { StyleType } from "./StyleSelector";
 import { ProductType } from "./ProductOptions";
 import { toast } from "@/hooks/use-toast";
+import { API_ENDPOINTS } from "@/lib/api";
 
 interface CheckoutButtonProps {
   style: StyleType | null;
@@ -44,23 +45,35 @@ const CheckoutButton = ({
     setIsLoading(true);
 
     try {
-      // In production, this would call your Stripe checkout endpoint
-      const response = await fetch("/api/create-checkout-session", {
+      // Prepare items for Stripe checkout
+      const items = [{
+        name: `${style.charAt(0).toUpperCase() + style.slice(1)} Style ${product.charAt(0).toUpperCase() + product.slice(1)}`,
+        description: `AI-generated ${style} artwork as ${product}${files.length > 1 ? ` (${files.length} photos)` : ''}`,
+        amount: PRODUCT_PRICES[product],
+        quantity: 1,
+        images: [] // Add product images if available
+      }];
+
+      const response = await fetch(API_ENDPOINTS.CHECKOUT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          style,
-          product,
-          email,
-          customPrompt: style === "custom" ? customPrompt : undefined,
-          fileCount: files.length,
+          items,
+          customerEmail: email,
+          metadata: {
+            style,
+            product,
+            customPrompt: style === "custom" ? customPrompt : undefined,
+            fileCount: files.length.toString()
+          }
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create checkout session");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.details || "Failed to create checkout session");
       }
 
       const { url } = await response.json();
@@ -71,7 +84,7 @@ const CheckoutButton = ({
       console.error("Checkout error:", error);
       toast({
         title: "Checkout Error",
-        description: "Unable to process payment. Please try again.",
+        description: error instanceof Error ? error.message : "Unable to process payment. Please try again.",
         variant: "destructive",
       });
     } finally {
